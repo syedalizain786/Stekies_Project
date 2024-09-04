@@ -12,16 +12,22 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
+# Load .env file
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--hd12_rfa@k%63pvio_(&6_$2)3mo1%+iv3pcv0_ur#=(cn8d9'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,12 +94,12 @@ WSGI_APPLICATION = 'stekkies.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use 'django.db.backends.mysql' for MySQL
-        'NAME': 'propertiesdb',  # Replace with your database name
-        'USER': 'zain',  # Replace with your MySQL user
-        'PASSWORD': 'syed0300',  # Replace with your MySQL password
-        'HOST': 'localhost',  # Or your database host if it's remote
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.mysql',  
+        'NAME': os.getenv('DB_NAME'),  
+        'USER': os.getenv('DB_USER'),  
+        'PASSWORD': os.getenv('DB_PASSWORD'),  
+        'HOST': os.getenv('DB_HOST'),  
+        'PORT': os.getenv('DB_PORT'),  
     }
 }
 
