@@ -1,7 +1,8 @@
 from properties.views import PropertiesView
 
-from django.urls import path
+from django.urls import include, path
 
 urlpatterns = [
-    path('properties/', PropertiesView.as_view()),
+    path('properties/', include('properties.urls')),
+    path('user/',include('user.urls')),
 ]

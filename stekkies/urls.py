@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls import handler404
+
+from stekkies.views import custom_404
 
 urlpatterns = [
     path('v1/', include('api.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 ]
+
+handler404 = custom_404

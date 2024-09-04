@@ -12,6 +12,5 @@ class Properties(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(default=timezone.now)
 
-
     class Meta:
         db_table = 'properties'

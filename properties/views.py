@@ -1,3 +1,4 @@
+from django.forms import IntegerField
 from properties.models import Properties
 from properties.serializers import PropertiesSerializer
 from rest_framework.views import APIView
@@ -5,7 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from django.db import connection
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from django.db.models import Q, F
+from django.db.models.functions import Cast
 
+@permission_classes([IsAuthenticated])
 class PropertiesView(APIView):
     def get(self, request):
         max_price = request.query_params.get('max_price')
@@ -20,7 +26,7 @@ class PropertiesView(APIView):
         if max_price:
             sql_query += f' AND CAST(price AS UNSIGNED) <= {max_price}'
         if area:
-            sql_query += f' AND CAST(area AS UNSIGNED) <= {area}'
+            sql_query += f' AND CAST(area AS UNSIGNED) >= {area}'
         if no_of_rooms:
             sql_query += f' AND CAST(no_of_rooms AS UNSIGNED) = {no_of_rooms}'
         if city:
@@ -29,7 +35,7 @@ class PropertiesView(APIView):
         else:
             params = []
 
-        sql_query += " order by price asc"
+        sql_query += " order by CAST(price AS UNSIGNED) asc"
         print(sql_query)
         queryset = Properties.objects.raw(sql_query, params)
         paginator = PageNumberPagination()
