@@ -24,7 +24,9 @@ class User_View(APIView):
             if id:
                 user = User.objects.get(id=id)
                 serializer = UserSerializer(user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                data = serializer.data
+                data.pop('password', None)
+                return Response(data, status=status.HTTP_200_OK)
             else:
                 users = User.objects.all()
                 paginator = PageNumberPagination()
