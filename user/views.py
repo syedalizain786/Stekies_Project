@@ -102,5 +102,6 @@ class LoginView(APIView):
         except Exception as e:
             print(f"Exception: {str(e)}")
             return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+   
     
 
